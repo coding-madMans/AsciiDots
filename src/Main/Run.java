@@ -1,10 +1,10 @@
-package Test;
+package Main;
 
 import asciiDots.AsciiDots;
 
 import java.util.Scanner;
 
-public class TestRun {
+public class Run {
     public static void main(String[] args) throws Exception {
         System.out.println("Configuring the terminal window width : ");
         int width = 100, inc = 0;
