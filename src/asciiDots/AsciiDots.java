@@ -9,12 +9,16 @@ import java.util.List;
 
 public class AsciiDots {
 
-    protected int width;
-    protected List<HashMap<Integer,Character>> asciiDotsProgram;
+    private int width;
+    private final List<HashMap<Integer,Character>> asciiDotsProgram;
+    private final HashMap<Integer, Period> periods;
+    private boolean running;
 
     public AsciiDots(int width, String asciiDotsFile) throws Exception {
         this.width = width;
         this.asciiDotsProgram = new ArrayList<>();
+        this.periods = new HashMap<>();
+        this.running = true;
         int row = 0, col = 0;
 
         try{
@@ -27,6 +31,10 @@ public class AsciiDots {
                         throw new Exception("{ERROR} : The file width id greater than the screen width...");
                     }
                     if(asciiChar != ' '){
+                        if(asciiChar == '.'){
+                            Period period = new Period(row, col);
+                            this.periods.put(period.getID(), period);
+                        }
                         this.asciiDotsProgram.get(row).put(col, asciiChar);
                     }
                     col += 1;
@@ -39,6 +47,37 @@ public class AsciiDots {
         }catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void update(){
+        System.out.println("Updating");
+        for(Integer periodID : this.periods.keySet()){
+            this.periods.get(periodID).updatePosition(this);
+        }
+    }
+
+    public void run(){
+        int count = 0;
+        int maxCount = 3;
+        while(this.running){
+            this.update();
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if((++count > maxCount)){
+                this.running = false;
+            }
+        }
+    }
+
+    public void changeWidth(int width){
+        this.width = width;
+    }
+
+    public void deletePeriod(int periodID){
+        this.periods.remove(periodID);
     }
 
     public void repr(){

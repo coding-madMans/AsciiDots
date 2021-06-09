@@ -1,6 +1,7 @@
 package Test;
 
 import asciiDots.AsciiDots;
+import asciiDots.AsciiDotsProgramData;
 
 import java.util.Scanner;
 
@@ -24,9 +25,9 @@ public class TestRun {
         scanner.close();
         line = line.repeat(width);
         System.out.println(line);
+        AsciiDotsProgramData.inti();
         AsciiDots asciiDots = new AsciiDots(width, "res/asciiDots1.ascd");
         asciiDots.repr();
-        asciiDots = new AsciiDots(width, "res/asciiDots2.ascd");
-        asciiDots.repr();
+        asciiDots.run();
     }
 }
